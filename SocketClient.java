@@ -94,18 +94,16 @@ public class SocketClient {
     }
 
     public String readFromSocket() {
-        String line = "not initialized yet :P";
-        try {
-            String message = reader.readLine();
-            if ((message) != null) {
-                System.out.println(message + " <----------read from socket");
-            }
-
-        } catch (IOException ex) {
-            //Logger.getLogger(SocketClientExtension.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
-        return line;
-    }
+			String message = "not initialized yet :P";
+			try { 
+				message = reader.readLine(); 
+				if ((message) != null) { 
+					System.out.println(message + " <----------read from socket"); 
+				}    
+			} catch (IOException ex) { 
+				return "error receiving message";
+			}
+			
+			return message;
     }
 }
