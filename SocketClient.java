@@ -96,12 +96,9 @@ public class SocketClient {
     public String readFromSocket() {
         String line = "not initialized yet :P";
         try {
-            //InputStream input = socket.getInputStream();
-            //BufferedReader reader = new BufferedReader(new InputStreamReader(input));
-            //System.out.println("inputStream setup");
-
-            if ((reader.readLine()) != null) {
-                System.out.println(reader.readLine() + " <----------read from socket");
+            String message = reader.readLine();
+            if ((message) != null) {
+                System.out.println(message + " <----------read from socket");
             }
 
         } catch (IOException ex) {
@@ -109,5 +106,6 @@ public class SocketClient {
         }
 
         return line;
+    }
     }
 }
