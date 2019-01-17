@@ -15,7 +15,7 @@ import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
+import java.util.LinkedHashMap;
 /**
  *
  * @author Kirby
@@ -31,18 +31,35 @@ public class SocketClient {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        // TODO code application logic here
-        System.out.println("Start");
-        SocketClient socketEx = new SocketClient();
+	System.out.println("Start");
+        JavaClient socketEx = new JavaClient();
         socketEx.openSocketClient("163.11.236.50", 8080);
         System.out.println("Everyone is connected!");
-        System.out.println("sending .....");
-        while (true) {
-        //socketEx.readFromSocket();
-            socketEx.sendSocketData("Hello Darling~ \n" + "\n");
-        //socketEx.closeSocketClient();
+        //System.out.println("sending .....");
+        String ReceivedMess;
+        LinkedHashMap<String,String> sendVals = new LinkedHashMap <String,String>(50);
+        sendVals.put("lat", "1");
+        sendVals.put("lon", "12");
+        sendVals.put("height", "123");
+        boolean ClientWantstoTalk = true;
+        while (ClientWantstoTalk) {
+            socketEx.sendSocketData("3: lat lon height");
+            ReceivedMess = socketEx.readFromSocket();          
+           
+            for(String keys: sendVals.keySet()){
+                if((ReceivedMess != null) && (ReceivedMess).equals("ack") )  {
+                    socketEx.sendSocketData(sendVals.get(keys));
+                    ReceivedMess = socketEx.readFromSocket();
+                }else{
+                    System.out.println("Error: Server did not acknowledge element:"+keys);
+                }
+            }
+            
+            socketEx.closeSocketClient();
+            ClientWantstoTalk = false;
+            
+            //System.out.println("connection ended");
         }
-
         //System.out.println("attempting to transmit destination");
         //socketEx.sendDestination("Hello Darling~");
         //System.out.println("attempting to transmit present coordinates");
